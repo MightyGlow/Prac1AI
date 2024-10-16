@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import AdaBoostClassifier
+import warnings
+warnings.filterwarnings("ignore")
+data = pd.read_csv("Iris.csv")
+
+print(data.shape)
+(150, 6)
+data.head()
+
+
+data = data.drop('Id',axis=1)
+x = data.iloc[:,:-1]
+y = data.iloc[:,-1]
+print("Shape of x is %s and shape of y is %s"%(x.shape,y.shape))
+
+
+total_classes = y.nunique()
+print("Number of unique species in dataset  are: ",total_classes)
+
+
+distribution = y.value_counts()
+print(distribution)
+
+
+x_train,x_val,y_train,y_val = train_test_split(
+    x,y,test_size=0.25,random_state=28)
+adb = AdaBoostClassifier()
+adb_model = adb.fit(x_train,y_train)
+print("The accuracy of the model of validation set is",
+adb_model.score(x_val,y_val))
