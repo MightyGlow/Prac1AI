@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+#Loading the tennis data
+tennis=pd.read_csv("tennisdata.csv")
+tennis
+
+
+from sklearn.preprocessing import LabelEncoder
+Le=LabelEncoder()
+tennis['Outlook']=Le.fit_transform(tennis['Outlook'])
+tennis['Temperature']=Le.fit_transform(tennis['Temperature'])
+tennis['Humidity']=Le.fit_transform(tennis['Humidity'])
+tennis['Windy']=Le.fit_transform(tennis['Windy'])
+tennis['PlayTennis']=Le.fit_transform(tennis['PlayTennis'])
+tennis
+
+
+y=tennis['PlayTennis']
+x=tennis.drop(['PlayTennis'],axis=1)
+from sklearn import tree
+clf=tree.DecisionTreeClassifier(criterion='entropy')
+clf=clf.fit(x,y)
+tree.plot_tree(clf)
+
+
+import graphviz
+dot_data=tree.export_graphviz(clf,out_file=None)
+graph=graphviz.Source(dot_data)
+graph
+
+
+x_pred=clf.predict(x)
+x_pred==y
+
+
