@@ -1,0 +1,25 @@
+from RMP import dict_gn
+start = "Arad"
+goal = "Bucharest"
+result = " "
+def DFS(city,visitedstack):
+  global result
+  found = 0
+  result = result + ' ' + city
+  visitedstack.append(city)
+  if city == goal:
+    return 1
+
+  for eachcity in dict_gn[city].keys(): #eachcity is a variable
+    if eachcity not in visitedstack:
+      found = DFS(eachcity,visitedstack)
+      if found:
+        return found
+
+def main():
+  visitedstack =[]
+  DFS(start,visitedstack)
+  print("IDFS Traversal from", start, "to", goal,"is:")
+  print(result)
+
+main()
